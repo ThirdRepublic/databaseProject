@@ -21,7 +21,6 @@
             if(isset($_SESSION["currentFriendGroup"])){
                 unset($_SESSION["currentFriendGroup"]);
             }
-            //test
             ?>
         </div>
     </body>
