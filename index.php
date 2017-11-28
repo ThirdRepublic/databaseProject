@@ -7,6 +7,7 @@
         <link rel = "stylesheet" href = "back/header.css">
     </head>
     <body>
+        
         <?php include "back/header.php"?>
         <div id = "main">
             <?php
@@ -20,6 +21,7 @@
             if(isset($_SESSION["currentFriendGroup"])){
                 unset($_SESSION["currentFriendGroup"]);
             }
+            //test
             ?>
         </div>
     </body>
