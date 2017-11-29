@@ -11,27 +11,32 @@
         <div id = "main">
             <?php
             session_start();
-            $error = "";
-            if(isset($_SESSION["userSession"])){  
-                if(isset($_SESSION["addContentError"])){
-                    $error = "<div class = 'error'>".$_SESSION['addContentError']."</div> <br/>";
-                    unset($_SESSION["addContentError"]);
-                }   
-                echo "$error Hello, $_SESSION[userSession] <br/> <br/>
-                    <h1>Feed</h1>
-                ";
-            }
-            else{
+            if(!isset($_SESSION["userSession"])){   
                 header("Location: login.php");
             }
             if(isset($_SESSION["currentFriendGroup"])){
-                unset($_SESSION["currentFriendGroup"]);
+                    unset($_SESSION["currentFriendGroup"]);
             }
             if(isset($_SESSION["contentIdSession"])){
                 unset($_SESSION["contentIdSession"]);
             }
+            $error = "";
+            if(isset($_SESSION["addContentError"])){   
+                $error = "<div class = 'error'>".$_SESSION['addContentError']."</div> <br/>";
+                unset($_SESSION["addContentError"]);
+            }
             $conn = new PDO("mysql:host=localhost;dbname=databaseproject", "root", "");
-            $cmd = "SELECT DISTINCT c.id, c.timest, c.username, c.content_name, c.file_path, p.first_name, p.last_name FROM member m JOIN share s JOIN content c JOIN person p WHERE (m.group_name = s.group_name AND m.username_creator = s.username AND m.username = '$_SESSION[userSession]' AND s.id = c.id AND c.username = p.username) OR (c.public = 1 AND c.username = p.username) OR (c.username = '$_SESSION[userSession]' AND c.username = p.username) ORDER BY c.timest DESC";
+            echo "<span>Create New Content</span>
+                <form action='back/addContent.php' method='POST'>
+                    <input name='name' type='text' placeholder='Content Name'> <br/> 
+                    <input name='file_path' type='text' placeholder='File Path'> <br/> 
+                    <input name='isPublic' type='radio' value='Public'> Public <br/>
+                    <input name='isPublic' type='radio' value='Private' checked> Private <br/>
+                    <input type='submit'>
+                </form> <br/> $error
+                ";
+            //loads all of user's posted content     
+            $cmd = "SELECT id, timest, content_name, file_path FROM content WHERE username = '$_SESSION[userSession]' ORDER BY timest DESC";
             $statement = $conn->prepare($cmd);
             $statement->execute();
             $result = $statement->fetch();
@@ -39,14 +44,14 @@
                 do{
                     echo "
                     <figure>
-                        <div> $result[first_name] $result[last_name] (".$result['username'].") <br/>";
+                        <div> Posted: <br/>";
                         echo substr($result['timest'],0,strpos($result['timest'],' ')) . "<br/>" . substr($result['timest'],strpos($result['timest'],' '));
                         echo "</div>
                         <a href= 'content.php?contentId=$result[id]'> 
                             <img src='$result[file_path]' alt='$result[content_name]'>
                         </a>    
                         <figcaption>$result[content_name]</figcaption>
-                    </figure> 
+                    </figure> <br/>
                     ";
                 }while($result = $statement->fetch());
             }

@@ -14,6 +14,12 @@
             if(isset($_SESSION["userSession"])){   
                 header("Location: index.php"); 
             }
+            if(isset($_SESSION["currentFriendGroup"])){
+                    unset($_SESSION["currentFriendGroup"]);
+            }
+            if(isset($_SESSION["contentIdSession"])){
+                unset($_SESSION["contentIdSession"]);
+            }
             $error = "";
             if(isset($_SESSION["loginError"])){   
                 $error = "<div class = 'error'>".$_SESSION['loginError']."</div>";

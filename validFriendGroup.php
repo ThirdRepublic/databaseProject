@@ -15,6 +15,12 @@
                 if(!isset($_SESSION["userSession"])){   
                     header("Location: login.php");
                 }
+                if(isset($_SESSION["currentFriendGroup"])){
+                    unset($_SESSION["currentFriendGroup"]);
+                }
+                if(isset($_SESSION["contentIdSession"])){
+                    unset($_SESSION["contentIdSession"]);
+                }
                 $error = "";
                 if(isset($_SESSION["addMemberError"])){   
                     $error = "<div class = 'error'>".$_SESSION['addMemberError']."</div>";
@@ -22,7 +28,7 @@
                 }
                 $friendGroup = $_GET["friendGroup"];
                 //check if valid friend group since GET is used instead of POST
-                $cmd = "SELECT * FROM friendgroup WHERE username='$_SESSION[userSession]' AND group_name = $friendGroup";
+                $cmd = "SELECT * FROM friendgroup WHERE username='$_SESSION[userSession]' AND group_name = '$friendGroup'";
                 $statement = $conn->prepare($cmd);
                 $statement->execute();
                 $result = $statement->fetch();
@@ -30,17 +36,17 @@
                     header("Location: friendgroup.php");
                 }
                 //retrives members in friend group 
-                $cmd = "SELECT username, first_name, last_name FROM person WHERE username in (SELECT username FROM member WHERE username_creator='$_SESSION[userSession]' AND group_name = $friendGroup)";
+                $cmd = "SELECT username, first_name, last_name FROM person WHERE username in (SELECT username FROM member WHERE username_creator='$_SESSION[userSession]' AND group_name = '$friendGroup')";
                 $statement = $conn->prepare($cmd);
                 $statement->execute();
                 $result = $statement->fetch();
-                echo "Members of $friendGroup <br/>";
+                echo "Members of <b>$friendGroup</b> FriendGroup<br/><br/>";
                 do{
-                echo "<div> {".$result['username']."} $result[first_name] $result[last_name]  </div>";
+                echo "<div> $result[first_name] $result[last_name] (".$result['username'].") </div>";
                 }while($result = $statement->fetch());
                 echo "
                     <br/>
-                    <span>Add User to $friendGroup</span>
+                    <div>Add user to <b>$friendGroup</b> FriendGroup</div>
                     <form action='back/registerValidMember.php' method='POST'>
                         <input name='FName' placeholder='First Name' type='text'/> 
                         <input name='LName' placeholder='Last Name' type='text'/> <br/> 
@@ -56,7 +62,7 @@
                     $statement->execute();
                     $result = $statement->fetch();
                     do{
-                        echo "<a href = 'back/registerSpecficValidMember.php?username=$result[username]&FName=$FName&LName=$LName&friendGroup=$friendGroup'>{".$result[0]."} $FName $FName</a> <br/>" ;
+                        echo "<a href = 'back/registerSpecficValidMember.php?username=$result[username]&FName=$FName&LName=$LName&friendGroup=$friendGroup'>(".$result[0].") $FName $FName</a> <br/>" ;
                     }while($result = $statement->fetch());
                 }
             ?>

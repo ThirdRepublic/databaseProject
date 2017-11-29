@@ -24,9 +24,10 @@
                     <input name='username' placeholder='Username' type='text' /> <br/> 
                     <input name='password' type= 'password' placeholder='Password'/> <br/> 
                     <input name='FName' placeholder='First Name' type='text' /> <br/> 
-                    <input name='LName' placeholder='Last Name' type='text' /> <br/> 
+                    <input name='LName' placeholder='Last Name' type='text' /> <br/> <br/> 
                     <input type='submit'>
                 </form> <br/> $error
+                <a href='login.php'>Login</a>
                 "
             ?>
         </div>

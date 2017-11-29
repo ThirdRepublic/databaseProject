@@ -28,6 +28,9 @@
                     else
                         $_SESSION["currentFriendGroup"]=$_POST["newGroupName"];
                 }
+                if(isset($_SESSION["contentIdSession"])){
+                    unset($_SESSION["contentIdSession"]);
+                }
                 $friendGroup = $_SESSION["currentFriendGroup"];
                 //checks if group alreaedy exist for user
                 $cmd = "SELECT * FROM friendgroup WHERE username='$_SESSION[userSession]' AND group_name = $friendGroup";
@@ -56,7 +59,7 @@
                     $statement->execute();
                     $result = $statement->fetch();
                     do{
-                        echo "<a href = 'back/registerSpecficMember.php?username=$result[username]&FName=$FName&LName=$LName'>{".$result[0]."} $FName $FName</a> <br/>" ;
+                        echo "<a href = 'back/registerSpecficMember.php?username=$result[username]&FName=$FName&LName=$LName'>(".$result[0].") $FName $FName</a> <br/>" ;
                     }while($result = $statement->fetch());
                 }
                 
