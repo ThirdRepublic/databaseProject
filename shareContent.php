@@ -43,13 +43,24 @@
             }
             else{
                echo "You don't have any FriendGroup to share with."; 
-            }
+            }            
             echo"
                 <br/>
                 <a href= 'content.php?contentId=$contentId'> 
                     Return to content
                 </a>
             ";  
+            //List all friendgroups currently shared with
+            $cmd = "SELECT group_name FROM share WHERE username='$_SESSION[userSession]' AND id = '$contentId'";
+            $statement = $conn->prepare($cmd);
+            $statement->execute();
+            $result = $statement->fetch();
+            if($result){
+                echo "<h3>Currently Shared With</h3>";
+                do{
+                    echo "<div> $result[group_name] </div>" ;
+                }while($result = $statement->fetch());
+            }    
             ?>
         </div>
     </body>
