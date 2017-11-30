@@ -11,13 +11,18 @@
         <div id = "main">
             <?php
             session_start();
+            $conn = new PDO("mysql:host=localhost;dbname=databaseproject", "root", "");
             $error = "";
             if(isset($_SESSION["userSession"])){  
                 if(isset($_SESSION["addContentError"])){
                     $error = "<div class = 'error'>".$_SESSION['addContentError']."</div> <br/>";
                     unset($_SESSION["addContentError"]);
-                }   
-                echo "$error Hello, $_SESSION[userSession] <br/> <br/>
+                } 
+                $cmd = "SELECT * FROM person WHERE username = '$_SESSION[userSession]'";
+                $statement = $conn->prepare($cmd);
+                $statement->execute();
+                $result = $statement->fetch();
+                echo "$error <h3>Welcome, $result[first_name] $result[last_name] (".$_SESSION["userSession"].")</h3> 
                     <h1>Feed</h1>
                 ";
             }
@@ -30,8 +35,7 @@
             if(isset($_SESSION["contentIdSession"])){
                 unset($_SESSION["contentIdSession"]);
             }
-            $conn = new PDO("mysql:host=localhost;dbname=databaseproject", "root", "");
-            $cmd = "SELECT DISTINCT c.id, c.timest, c.username, c.content_name, c.file_path, p.first_name, p.last_name FROM member m JOIN share s JOIN content c JOIN person p WHERE (m.group_name = s.group_name AND m.username_creator = s.username AND m.username = '$_SESSION[userSession]' AND s.id = c.id AND c.username = p.username) OR (c.public = 1 AND c.username = p.username) OR (c.username = '$_SESSION[userSession]' AND c.username = p.username) ORDER BY c.timest DESC";
+            $cmd = "SELECT DISTINCT c.id, c.timest, c.username, c.content_name, c.file_path, p.first_name, p.last_name FROM content c JOIN person p WHERE c.username = p.username AND (c.username = '$_SESSION[userSession]' OR public = 1 OR id IN (SELECT c.id FROM member m JOIN share s JOIN content c WHERE m.group_name = s.group_name AND m.username_creator = s.username AND m.username = '$_SESSION[userSession]' AND s.id = c.id)) ORDER BY c.timest DESC";
             $statement = $conn->prepare($cmd);
             $statement->execute();
             $result = $statement->fetch();
@@ -39,7 +43,7 @@
                 do{
                     echo "
                     <figure>
-                        <div> $result[first_name] $result[last_name] (".$result['username'].") <br/>";
+                        <div><b>$result[first_name] $result[last_name] (".$result['username'].")</b></div><div>";
                         echo substr($result['timest'],0,strpos($result['timest'],' ')) . "<br/>" . substr($result['timest'],strpos($result['timest'],' '));
                         echo "</div>
                         <a href= 'content.php?contentId=$result[id]'> 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2017 at 07:01 PM
+-- Generation Time: Nov 30, 2017 at 03:05 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -131,8 +131,7 @@ INSERT INTO `person` (`username`, `password`, `first_name`, `last_name`) VALUES
 ('EE', '$2y$10$x3Ek2G4HMEqRbVg9KefwzeBF/tlw39D6ygvwKFTYX3lRwIeBbllwa', 'Ellen', 'Ellenberg'),
 ('FF', '$2y$10$n.4CE8F6nFd1yOwLPxEqh.GzilIdCs3hoFtwt.5BtLZf5c26tHG1C', 'Fred', 'Fox'),
 ('GG', '$2y$10$hzJk0QfWHwjxLLX8/A8RdeBaGN5e6jtFo3g/i0u/RcMjXai0kr98a', 'Gina', 'Gupta'),
-('HH', '$2y$10$5qICGTB3aVCna9FlE0hpveSAJjs1/IKbwDCI0/bIVzZDSz68Ie72C', 'Helen', 'Harper'),
-('t', '$2y$10$XsvfY.Eeb/Ui2S8Zf9SR8.2KWJieJXA7VO6BrrIVDHTwfjQ0M0o5a', 't', 't');
+('HH', '$2y$10$5qICGTB3aVCna9FlE0hpveSAJjs1/IKbwDCI0/bIVzZDSz68Ie72C', 'Helen', 'Harper');
 
 -- --------------------------------------------------------
 
@@ -221,7 +220,7 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT for table `content`
 --
 ALTER TABLE `content`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- Constraints for dumped tables
 --

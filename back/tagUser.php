@@ -42,7 +42,7 @@
             else{
                 //insert into 
                 //check if self tagging
-                if($result['username'] == ($_SESSION["userSession"])){
+                if($username == ($_SESSION["userSession"])){
                     $cmd = "INSERT INTO tag(id, username_tagger, username_taggee, status) VALUES ('$contentId','$_SESSION[userSession]','$username',1)";
                     $_SESSION["tagError"] = "Tag Successful.";
                 }
