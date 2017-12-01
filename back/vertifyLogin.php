@@ -14,7 +14,7 @@
         $result = $statement->fetch();
         $storedPassword = $result["password"]; 
         if($result && password_verify($password, $storedPassword)){
-            $_SESSION["userSession"] = $username;
+            $_SESSION["userSession"] = strtoupper($username);
             header("Location: ../index.php");
         }
         else{

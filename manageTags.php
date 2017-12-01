@@ -21,7 +21,7 @@
                 unset($_SESSION["contentIdSession"]);
             }
             $conn = new PDO("mysql:host=localhost;dbname=databaseproject", "root", "");
-            $cmd = "SELECT t.id, c.username AS postedBy, c.content_name, c.file_path, s.group_name, p.username, p.first_name, p.last_name FROM tag t JOIN person p JOIN share s JOIN content c WHERE t.id = c.id AND t.id = s.id AND t.username_tagger = p.username AND t.username_taggee = '$_SESSION[userSession]' AND t.status = '0'";
+            $cmd = "SELECT t.id, c.username AS postedBy, c.content_name, c.file_path, p.username, p.first_name, p.last_name FROM tag t JOIN person p JOIN content c WHERE t.id = c.id AND t.username_tagger = p.username AND t.username_taggee = '$_SESSION[userSession]' AND t.status = '0'";
             $statement = $conn->prepare($cmd);
             $statement->execute();
             $result = $statement->fetch();
@@ -34,7 +34,7 @@
                     $result2 = $statement2->fetch();
                     echo "
                     <div> 
-                        <div>Tag Request By <b>$result[first_name] $result[last_name] (".$result['username'].")</b> on <a href = 'content.php?contentId=$result[id]'> $result[content_name]</a> <br/> Posted By: <b>$result[first_name] $result[last_name] (".$result['username'].")</b> to the <b>$result[group_name]</b> FriendGroup <br/> </div>
+                        <div>Tag Request By <b>$result[first_name] $result[last_name] (".$result['username'].")</b> on <a href = 'content.php?contentId=$result[id]'> $result[content_name]</a> <br/> Posted By: <b>$result[first_name] $result[last_name] (".$result['username'].")</b> <br/> </div>
                         <img src='$result[file_path]' alt='$result[content_name]'>
                         <form action='back/updateTags.php' method='POST'> 
                             <input name='action' value='Accept' type='submit'>
@@ -50,7 +50,7 @@
                 echo "<h1>You Don't Have Pending Tags</h1>";
             }
             //checks for accepted tags
-            $cmd = "SELECT t.id, c.username AS postedBy, c.content_name, c.file_path, s.group_name, p.username, p.first_name, p.last_name FROM tag t JOIN person p JOIN share s JOIN content c WHERE t.id = c.id AND t.id = s.id AND t.username_tagger = p.username AND t.username_taggee = '$_SESSION[userSession]' AND t.status = '1'";
+            $cmd = "SELECT t.id, c.username AS postedBy, c.content_name, c.file_path, p.username, p.first_name, p.last_name FROM tag t JOIN person p JOIN content c WHERE t.id = c.id AND t.username_tagger = p.username AND t.username_taggee = '$_SESSION[userSession]' AND t.status = '1'";
             $statement = $conn->prepare($cmd);
             $statement->execute();
             $result = $statement->fetch();
@@ -63,7 +63,7 @@
                     $result2 = $statement2->fetch();
                     echo "
                     <div> 
-                        <div>Tag Request By <b>$result[first_name] $result[last_name] (".$result['username'].")</b> on <a href = 'content.php?contentId=$result[id]'> $result[content_name]</a> <br/> Posted By: <b>$result[first_name] $result[last_name] (".$result['username'].")</b> to the <b>$result[group_name]</b> FriendGroup <br/> </div>
+                        <div>Tag Request By <b>$result[first_name] $result[last_name] (".$result['username'].")</b> on <a href = 'content.php?contentId=$result[id]'> $result[content_name]</a> <br/> Posted By: <b>$result[first_name] $result[last_name] (".$result['username'].")</b> </div>
                         <img src='$result[file_path]' alt='$result[content_name]'>
                         <form action='back/updateTags.php' method='POST'> 
                             <input name='action' value='Remove Tag' type='submit'>

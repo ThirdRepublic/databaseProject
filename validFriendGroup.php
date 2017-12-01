@@ -62,7 +62,7 @@
                     $statement->execute();
                     $result = $statement->fetch();
                     do{
-                        echo "<a href = 'back/registerSpecficValidMember.php?username=$result[username]&FName=$FName&LName=$LName&friendGroup=$friendGroup'>(".$result[0].") $FName $FName</a> <br/>" ;
+                        echo "<a href = 'back/registerSpecficValidMember.php?username=$result[username]&FName=$FName&LName=$LName&friendGroup=$friendGroup'>(".$result[0].") $FName $LName</a> <br/>" ;
                     }while($result = $statement->fetch());
                 }
             ?>

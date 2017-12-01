@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $username = $_POST["username"];               
+    $username = strtoupper($_POST[username]);               
     $password = $_POST["password"];
     $FName = $_POST["FName"];
     $LName = $_POST["LName"];
